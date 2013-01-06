@@ -3,7 +3,7 @@ package com.danhaywood.ddd.domainservices.scheduler;
 import java.util.List;
 
 import org.apache.isis.core.runtime.authentication.standard.SimpleSession;
-import org.apache.isis.runtimes.dflt.runtime.system.context.IsisContext;
+import org.apache.isis.core.runtime.system.context.IsisContext;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
