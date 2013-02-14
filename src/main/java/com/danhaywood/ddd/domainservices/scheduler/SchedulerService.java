@@ -1,5 +1,8 @@
 package com.danhaywood.ddd.domainservices.scheduler;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -16,11 +19,19 @@ public class SchedulerService {
     private final String user;
     private final String roles;
     
-    private final Scheduler scheduler;
+    private Scheduler scheduler;
 
+    ////////////////////////////////////////////////////
+    // constructor, init, shutdown
+    ////////////////////////////////////////////////////
+    
     public SchedulerService(String user, String... roles) {
         this.user = user;
         this.roles = Joiner.on(",").join(roles);
+    }
+
+    @PostConstruct
+    public void init() {
         try {
             scheduler = StdSchedulerFactory.getDefaultScheduler();
             scheduler.start();
@@ -28,24 +39,12 @@ public class SchedulerService {
             throw new SchedulerServiceException(ex);
         }
     }
-    
-    protected void scheduleJob(JobDetail job, Trigger trigger) {
-        job.getJobDataMap().put(USER_KEY, user);
-        job.getJobDataMap().put(ROLES_KEY, roles);
 
-        try {
-            scheduler.scheduleJob(job, trigger);
-        } catch (SchedulerException ex) {
-            throw new SchedulerServiceException(ex);
-        }
-    }
-    
-    @Override
-    protected void finalize() throws Throwable {
+    @PreDestroy
+    public void shutdown() {
         shutdownQuartz();
-        super.finalize();
     }
-
+    
     private void shutdownQuartz() {
         if(scheduler == null) {
             return;
@@ -54,6 +53,22 @@ public class SchedulerService {
             scheduler.shutdown();
         } catch (SchedulerException se) {
             // ignore
+        }
+    }
+
+    
+    ////////////////////////////////////////////////////
+    // API for subclasses 
+    ////////////////////////////////////////////////////
+
+    protected void scheduleJob(JobDetail job, Trigger trigger) {
+        job.getJobDataMap().put(USER_KEY, user);
+        job.getJobDataMap().put(ROLES_KEY, roles);
+
+        try {
+            scheduler.scheduleJob(job, trigger);
+        } catch (SchedulerException ex) {
+            throw new SchedulerServiceException(ex);
         }
     }
 }

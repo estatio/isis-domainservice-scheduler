@@ -8,7 +8,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 
     <properties>
-        <isis.version>1.1.0</isis.version>
+        <isis.version>1.1.1-SNAPSHOT</isis.version>
     </properties>
     
 	<dependencies>
@@ -23,6 +23,12 @@
 			<artifactId>isis-core-runtime</artifactId>
 			<version>${isis.version}</version>
 		</dependency>
+
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>jsr250-api</artifactId>
+            <version>1.0</version>
+        </dependency>
 	</dependencies>
 
     
