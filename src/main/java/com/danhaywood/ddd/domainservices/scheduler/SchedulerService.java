@@ -1,5 +1,7 @@
 package com.danhaywood.ddd.domainservices.scheduler;
 
+import java.util.Map;
+
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
@@ -31,7 +33,7 @@ public class SchedulerService {
     }
 
     @PostConstruct
-    public void init() {
+    public void init(Map<String,String> properties) {
         try {
             scheduler = StdSchedulerFactory.getDefaultScheduler();
             scheduler.start();
