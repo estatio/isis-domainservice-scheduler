@@ -1,4 +1,20 @@
-package com.danhaywood.ddd.domainservices.scheduler;
+/*
+ *  Copyright 2013 Dan Haywood
+ *
+ *  Licensed under the Apache License, Version 2.0 (the
+ *  "License"); you may not use this file except in compliance
+ *  with the License.  You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing,
+ *  software distributed under the License is distributed on an
+ *  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ *  KIND, either express or implied.  See the License for the
+ *  specific language governing permissions and limitations
+ *  under the License.
+ */
+package com.danhaywood.isis.domainservice.scheduler;
 
 import java.util.Map;
 
@@ -13,10 +29,10 @@ import org.quartz.impl.StdSchedulerFactory;
 
 import com.google.common.base.Joiner;
 
-public class SchedulerService {
+public abstract class AbstractSchedulerService {
 
-    static final String USER_KEY = SchedulerService.class.getName() + ".user";
-    static final String ROLES_KEY = SchedulerService.class.getName() + ".roles";
+    static final String USER_KEY = AbstractSchedulerService.class.getName() + ".user";
+    static final String ROLES_KEY = AbstractSchedulerService.class.getName() + ".roles";
     
     private final String user;
     private final String roles;
@@ -27,7 +43,7 @@ public class SchedulerService {
     // constructor, init, shutdown
     ////////////////////////////////////////////////////
     
-    public SchedulerService(String user, String... roles) {
+    public AbstractSchedulerService(String user, String... roles) {
         this.user = user;
         this.roles = Joiner.on(",").join(roles);
     }
